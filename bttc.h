@@ -46,13 +46,14 @@
  * image, which should be 512x512 and grayscale.
  *
  * @code
- * lena  = imread( 'lena512.bmp' );
- * dlena = imresize( double(lena), [ 513, 513 ], 'bilinear' );
- * faces = bttc_m( dlena, 60 );
+ * lena  = imread( 'lena512.bmp' ); % Load the image
+ * dlena = imresize( double(lena), [ 513, 513 ], 'bilinear' ); % Image must be doubles of size must be 2^m-1
+ * faces = bttc_m( dlena, 60 ); % Image is dlena with a threshold of 60
  *
- * imshow( dlena ./ 255 );
+ * imshow( dlena ./ 255 ); % Display the image
  * hold on;
  *
+ * % Draw all the face lines one by one
  * for i=1:size(faces,1)
  *    f = faces(i,:);
  *    x = [f(:,1) f(:,3) f(:,5) f(:,1)];
@@ -92,8 +93,10 @@
  *    @param[in] pitch Pitch to shift when looking up rows in the image,
  *               should be equal to size if the entire image is being processed.
  *    @param[in] size Must a value in the form of 2^m+1 for m>=1. It indicates the
- *                    area to process, which goes from [0,size-1] in both x and y directions.
- *    @param[in] threshold Threshold to mesh based on.
+ *               area to process, which goes from [0,size-1] in both x and y directions.
+ *    @param[in] threshold Threshold to mesh based on. The range of the threshold depends on
+ *               the value range of the image and is the limit of error between the linear
+ *               interpolation of the trianglular face and the real value of the pixels.
  *    @return NULL on error or the list of faces found on success (with n faces or batches).
  *            This value is dynamically allocated and thus must be freed by the user.
  */
