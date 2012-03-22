@@ -39,7 +39,7 @@ static double bttc_G( const int T[6], int x, int y, const double c[3] )
 }
 
 
-int bttc( double *vertices, int *faces, const double *img, int pitch, int size, double threshold )
+int* bttc( int *n, const double *img, int pitch, int size, double threshold )
 {
    size_t nstack, mstack;
    int *stack;
@@ -55,7 +55,7 @@ int bttc( double *vertices, int *faces, const double *img, int pitch, int size, 
 
    /* size must be in the form of 2^m+1 */
    if ((size!=0) && (((size-1) & (size-2)) == 0))
-      return -1;
+      return NULL;
 
    /* Allocate temporary buffer. */
    mstack   = 16;
@@ -150,5 +150,7 @@ int bttc( double *vertices, int *faces, const double *img, int pitch, int size, 
       nstack += 2;
    }
 
-   return 0;
+   /* Finished here. */
+   *n = (int)ndone;
+   return done;
 }
