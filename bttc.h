@@ -35,6 +35,10 @@
  * (BTTC). This is usually for subdividing an image into a triangular mesh. The
  * core library is written in C but an octave/matlab interface is provided.
  *
+ * The main focus of this library is simplicity. The code is simple enough to
+ * directly integrate it into another program as it is a single C code file
+ * with no external dependencies.
+ *
  *
  * @section Example
  *
@@ -65,7 +69,7 @@
  *
  * @section References
  *
- *  -Distasi, R.; Nappi, M.; Vitulano, S.; , "Image compression by B-tree triangular coding," Communications, IEEE Transactions on , vol.45, no.9, pp.1095-1100, Sep 1997
+ *  -Distasi, R.; Nappi, M.; Vitulano, S.; "Image compression by B-tree triangular coding," Communications, IEEE Transactions on, vol.45, no.9, pp.1095-1100, Sep 1997
  *
  * @sa bttc
  */
@@ -83,11 +87,15 @@
  * batch = [ x0 y0 x1 y1 x2 y2 ]
  *
  *    @param[out] n Number of faces found (minimum 2 if no error occurred).
- *    @param[in] img Image to perform compression on.
- *    @param[in] pitch Pitch to shift when looking up rows in the image, should be equal to size if the entire image is being processed.
- *    @param[in] size Must a value in the form of 2^m+1 for m>=1.
+ *    @param[in] img Image to perform compression on. This image is row-major
+ *               and has a pitch of 'pitch' between rows.
+ *    @param[in] pitch Pitch to shift when looking up rows in the image,
+ *               should be equal to size if the entire image is being processed.
+ *    @param[in] size Must a value in the form of 2^m+1 for m>=1. It indicates the
+ *                    area to process, which goes from [0,size-1] in both x and y directions.
  *    @param[in] threshold Threshold to mesh based on.
  *    @return NULL on error or the list of faces found on success (with n faces or batches).
+ *            This value is dynamically allocated and thus must be freed by the user.
  */
 int *bttc( int *n, const double *img, int pitch, int size, double threshold );
 
