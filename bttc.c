@@ -2,15 +2,18 @@
 
 #include "bttc.h"
 
-#include <math.h>
-#include <stdlib.h>
-#include <string.h>
+#include <math.h> /* fabs */
+#include <stdlib.h> /* malloc */
+#include <string.h> /* memcpy */
 
 
-#define MIN(x,y)  ((x)<(y)?(x):(y))
-#define MAX(x,y)  ((x)>(y)?(x):(y))
+#define MIN(x,y)  ((x)<(y)?(x):(y)) /**< Helper minimum function. */
+#define MAX(x,y)  ((x)>(y)?(x):(y)) /**< Helper maximum function. */
 
 
+/**
+ * @brief Macro helper to make some things easier.
+ */
 #define TSET(T,x1,y1,x2,y2,x3,y3) \
 do { \
    T[0] = x1; T[1] = y1; \
@@ -21,6 +24,8 @@ do { \
 
 /**
  * @brief Calculates the G value of a PRAT.
+ *
+ * This is direct implementation of the function as defined in the reference paper.
  */
 static double bttc_G( const int T[6], int x, int y, const double c[3] )
 {
@@ -86,8 +91,12 @@ int* bttc( int *n, const double *img, int pitch, int size, double threshold )
       c[1] = img[ pitch*T[2] + T[3] ];
       c[2] = img[ pitch*T[4] + T[5] ];
 
-      /* Check condition for all points in the PRAT. */
-      met    = 1;
+      /* Check condition for all points in the PRAT. We do this by checking all
+       * the points in the bounding box of the triangle that meet the criteria of
+       * belonging to the triangle. Reference for this implementation look at:
+       * http://www.blackpawn.com/texts/pointinpoly/default.html
+       * We have tried to optimize it by removing as many calculations as possible
+       * out of the loop. */
       v0[0]  = T[4] - T[0];
       v0[1]  = T[5] - T[1];
       v1[0]  = T[2] - T[0];
@@ -96,10 +105,12 @@ int* bttc( int *n, const double *img, int pitch, int size, double threshold )
       dot01  = v0[0]*v1[0] + v0[1]*v1[1];
       dot11  = v1[0]*v1[0] + v1[1]*v1[1];
       invDenom = 1. / (dot00 * dot11 - dot01 * dot01);
+      /* Bounding box. */
       box[0] = MIN( T[0], MIN( T[2], T[4] ) );
       box[1] = MIN( T[1], MIN( T[3], T[5] ) );
       box[2] = MAX( T[0], MAX( T[2], T[4] ) );
       box[3] = MAX( T[1], MAX( T[3], T[5] ) );
+      met    = 1; /* Initially we consider it's matching. */
       for (x=box[0]; x<box[2]; x++) {
          for (y=box[1]; y<box[3]; y++) {
             int v2[2];
