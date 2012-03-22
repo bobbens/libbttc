@@ -3,7 +3,7 @@ PATH_INCLUDE	:= /usr/include
 PATH_INSTALL	:= /usr/lib
 
 LIBNAME	:= libbttc
-VERSION  := 2.0
+VERSION  := 1.0
 
 OBJS		:= bttc.o
 
@@ -37,6 +37,7 @@ $(LIBNAME).so: $(OBJS)
 
 bttc_m.mex: bttc_m.c bttc.c bttc.h
 	mkoctfile --mex bttc_m.c bttc.c
+	mex bttc_m.c bttc.c
 
 install: all
 	install -m 644 $(LIBNAME).a $(PATH_INSTALL)

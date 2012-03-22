@@ -54,8 +54,10 @@ int* bttc( int *n, const double *img, int pitch, int size, double threshold )
    int v0[2], v1[2];
 
    /* size must be in the form of 2^m+1 */
-   if ((size!=0) && (((size-1) & (size-2)) == 0))
+   if ((size<=0) || (((size-1) & (size-2)) != 0)) {
+      *n = 0;
       return NULL;
+   }
 
    /* Allocate temporary buffer. */
    mstack   = 16;
@@ -71,7 +73,7 @@ int* bttc( int *n, const double *img, int pitch, int size, double threshold )
    T1       = &stack[ 6*0 ];
    TSET( T1, 0, 0, 0, m, m, 0 );
    T2       = &stack[ 6*1 ];
-   TSET( T1, m, m, m, 0, 0, m );
+   TSET( T2, m, m, m, 0, 0, m );
    nstack   = 2;
 
    /* Now we must purge the infidels. */
@@ -109,7 +111,7 @@ int* bttc( int *n, const double *img, int pitch, int size, double threshold )
             dot12 = v1[0]*v2[0] + v1[1]*v2[1];
             u     = (dot11 * dot02 - dot01 * dot12) * invDenom;
             v     = (dot00 * dot12 - dot01 * dot02) * invDenom;
-            if ((u < 0.) || (v < 0.) || (u + v <= 1.))
+            if ((u < 0.) || (v < 0.) || (u + v >= 1.))
                continue;
 
             /* Check the error. */
@@ -143,8 +145,8 @@ int* bttc( int *n, const double *img, int pitch, int size, double threshold )
       pm[0]   = (T[2]+T[4])/2;
       pm[1]   = (T[3]+T[5])/2;
       memcpy( &pm[2], T, 6*sizeof(int) ); /* Must copy over T as we'll overwrite it. */
-      T1      = &stack[nstack+0];
-      T2      = &stack[nstack+1];
+      T1      = &stack[ 6*(nstack+0) ];
+      T2      = &stack[ 6*(nstack+1) ];
       TSET( T1, pm[0], pm[1], pm[2], pm[3], pm[4], pm[5] );
       TSET( T2, pm[0], pm[1], pm[6], pm[7], pm[2], pm[3] );
       nstack += 2;
@@ -154,3 +156,5 @@ int* bttc( int *n, const double *img, int pitch, int size, double threshold )
    *n = (int)ndone;
    return done;
 }
+
+
