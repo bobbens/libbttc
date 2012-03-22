@@ -15,7 +15,7 @@ LDFLAGS	:= -lm
 .PHONY: all lib install uninstall clean docs help
 
 
-all: libbttc
+all: libbttc bttc_m.mex
 
 help:
 	@echo "Valid targets are:"
@@ -35,6 +35,8 @@ $(LIBNAME).so: $(OBJS)
 	$(CC) -lm -shared -Wl,-soname,$(LIBNAME).so -o $(LIBNAME).so.$(VERSION) $(OBJS)
 	ln -sf $(LIBNAME).so.$(VERSION) $(LIBNAME).so
 
+bttc_m.mex: bttc_m.c bttc.c bttc.h
+	mkoctfile --mex bttc_m.c bttc.c
 
 install: all
 	install -m 644 $(LIBNAME).a $(PATH_INSTALL)
@@ -57,5 +59,6 @@ docs:
 
 clean:
 	$(RM) $(OBJS) $(LIBNAME).a $(LIBNAME).so $(LIBNAME).so.$(VERSION)
+	$(RM) bttc_m.mex
 
 
