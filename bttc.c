@@ -60,11 +60,11 @@ int* bttc( int *n, const double *img, int pitch, int size, double threshold )
    }
 
    /* Allocate temporary buffer. */
-   mstack   = 16;
+   mstack   = 256;
    stack    = malloc( mstack * 6*sizeof(int) );
 
    /* Allocate output buffer. */
-   mdone    = 16;
+   mdone    = 256;
    ndone    = 0;
    done     = malloc( mdone * 6*sizeof(int) );
 
