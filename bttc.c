@@ -1,4 +1,6 @@
-
+/*
+ * See licensing information in bttc.h
+ */
 
 #include "bttc.h"
 

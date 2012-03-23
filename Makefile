@@ -12,15 +12,17 @@ CFLAGS	:= -O3 -fPIC -W -Wall -Wextra -Werror -pedantic -ansi -Wconversion -Wunus
 LDFLAGS	:= -lm
 
 
-.PHONY: all lib install uninstall clean docs help
+.PHONY: all lib octave matlab install uninstall clean docs help
 
 
-all: libbttc bttc_m.mex
+all: libbttc
 
 help:
 	@echo "Valid targets are:"
-	@echo "          all - Makes the library and tests it"
-	@echo "        libdq - Makes the libdq library"
+	@echo "          all - Compiles the library"
+	@echo "      libbttc - Compiles the libbttc library"
+	@echo "       octave - Compiles the octave interface"
+	@echo "       matlab - Compiles the matlab interface"
 	@echo "      install - Installs the library"
 	@echo "    uninstall - Uninstalls the library"
 	@echo "         docs - Makes the documentation"
@@ -35,8 +37,12 @@ $(LIBNAME).so: $(OBJS)
 	$(CC) -lm -shared -Wl,-soname,$(LIBNAME).so -o $(LIBNAME).so.$(VERSION) $(OBJS)
 	ln -sf $(LIBNAME).so.$(VERSION) $(LIBNAME).so
 
+octave: bttc_m.mex
+
 bttc_m.mex: bttc_m.c bttc.c bttc.h
 	mkoctfile --mex bttc_m.c bttc.c
+
+matlab:
 	mex bttc_m.c bttc.c
 
 install: all
