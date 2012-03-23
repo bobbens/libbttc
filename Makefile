@@ -8,7 +8,7 @@ VERSION  := 1.0
 OBJS		:= bttc.o
 
 CFLAGS	:= -O3 -fPIC -W -Wall -Wextra -Werror -pedantic -ansi -Wconversion -Wunused -Wshadow -Wpointer-arith -Wmissing-prototypes -Winline -Wcast-align -Wmissing-declarations -Wredundant-decls -Wno-long-long -Wcast-align -Werror
-#CFLAGS	:= -g -DDQ_CHECK -fPIC -W -Wall -Wextra -Werror -pedantic -ansi
+#CFLAGS	:= -g -fPIC -W -Wall -Wextra -Werror -pedantic -ansi
 LDFLAGS	:= -lm
 
 
