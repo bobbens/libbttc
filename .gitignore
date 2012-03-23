@@ -1,5 +1,6 @@
 bttc_m.mex*
 docs/
+bttc.o
 libbttc.a
 libbttc.pdf
 libbttc.so
