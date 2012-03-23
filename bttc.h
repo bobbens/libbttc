@@ -34,7 +34,7 @@
  *
  * @section Overview
  *
- * This library calculates the faces obtained by B-Tree Triangular Compression
+ * This library calculates the faces obtained by B-Tree Triangular Coding
  * (BTTC). This is usually for subdividing an image into a triangular mesh. The
  * core library is written in C but an octave/matlab interface is provided.
  *
@@ -120,7 +120,7 @@
 
 
 /**
- * @brief Computes the B-Tree Triangular Compression of an image.
+ * @brief Computes the B-Tree Triangular Coding of an image.
  *
  * This function returns faces in the form of a long vector grouped into batches of 6.
  *
@@ -135,7 +135,7 @@
  * @endcode
  *
  *    @param[out] n Number of faces found (minimum 2 if no error occurred).
- *    @param[in] img Image to perform compression on. This image is row-major
+ *    @param[in] img Image to perform the coding on. This image is row-major
  *               and has a pitch of 'pitch' between rows.
  *    @param[in] pitch Pitch to shift when looking up rows in the image,
  *               should be equal to size if the entire image is being processed.
