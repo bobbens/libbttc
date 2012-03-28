@@ -96,9 +96,11 @@ void mexFunction( int nlhs, mxArray *plhs[],
       dims[1] = 3;
       plhs[0] = mxCreateNumericArray( 2, dims, mxDOUBLE_CLASS, mxREAL );
       dat = (double*)mxGetData(plhs[0]);
-      for (i=0; i<nvert; i++)
-         for (j=0; j<3; j++)
-            dat[ j*dims[0] + i ] = vert[ 3*i + j ]+1.;
+      for (i=0; i<nvert; i++) {
+         dat[ 0*dims[0] + i ] = vert[ 3*i + 0 ]+1.;
+         dat[ 1*dims[0] + i ] = vert[ 3*i + 1 ]+1.;
+         dat[ 2*dims[0] + i ] = vert[ 3*i + 2 ];
+      }
       /* Save the faces. */
       dims[0] = n;
       plhs[1] = mxCreateNumericArray( 2, dims, mxDOUBLE_CLASS, mxREAL );
