@@ -113,8 +113,8 @@ int* bttc( int *n, const double *img, int pitch, int size, double threshold )
       box[2] = MAX( T[0], MAX( T[2], T[4] ) );
       box[3] = MAX( T[1], MAX( T[3], T[5] ) );
       met    = 1; /* Initially we consider it's matching. */
-      for (x=box[0]; x<box[2]; x++) {
-         for (y=box[1]; y<box[3]; y++) {
+      for (x=box[0]; x<=box[2]; x++) {
+         for (y=box[1]; y<=box[3]; y++) {
             int v2[2];
             double dot02, dot12;
             double u, v;
@@ -124,7 +124,7 @@ int* bttc( int *n, const double *img, int pitch, int size, double threshold )
             dot12 = v1[0]*v2[0] + v1[1]*v2[1];
             u     = (dot11 * dot02 - dot01 * dot12) * invDenom;
             v     = (dot00 * dot12 - dot01 * dot02) * invDenom;
-            if ((u < 0.) || (v < 0.) || (u + v >= 1.))
+            if ((u < 0.) || (v < 0.) || (u + v > 1.))
                continue;
 
             /* Check the error. */
