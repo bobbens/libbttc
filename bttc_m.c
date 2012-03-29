@@ -52,7 +52,7 @@ void mexFunction( int nlhs, mxArray *plhs[],
       int i, j;
       for (i=0; i<n; i++)
          for (j=0; j<6; j++)
-            dat[ j*n + i ] = (double) faces[ 6*i + j ];
+            dat[ j*n + i ] = (double) faces[ 6*i + j ]+1;
    }
    else {
       int nvert;
