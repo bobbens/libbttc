@@ -154,6 +154,7 @@ int* bttc( int *n, const double *img, int pitch, int size, double threshold )
       if (nstack+2 > mstack) {
          mstack *= 2;
          stack   = realloc( stack, mstack * 6*sizeof(int) );
+         T       = &stack[ 6*nstack ];
       }
       pm[0]   = (T[2]+T[4])/2;
       pm[1]   = (T[3]+T[5])/2;
