@@ -166,6 +166,9 @@ int* bttc( int *n, const double *img, int pitch, int size, double threshold )
       nstack += 2;
    }
 
+   /* Clean up. */
+   free( stack );
+
    /* Finished here. */
    *n = (int)ndone;
    return done;
